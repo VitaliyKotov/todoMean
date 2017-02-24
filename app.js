@@ -41,7 +41,7 @@ TodoApp.controller("formController", ["$scope", "$http","getDate", function($sco
                 $scope.tasks = response.data;
             });
         console.log('insert data to db');
-        // $scope.init();
+        $scope.init();
     }
 }]);
 

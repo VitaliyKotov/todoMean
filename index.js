@@ -4,7 +4,7 @@ var mongodb = require("mongodb");
 var bodyParser = require("body-parser");
 var router = express.Router();
 
-var url = 'mongodb://localhost/tasks';
+var url = 'mongodb://guest:guest1@ds161069.mlab.com:61069/9999';
 mongoose.connect(url);
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
