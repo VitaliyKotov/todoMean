@@ -1,0 +1,8 @@
+.btn-danger,
+.panel-default {
+	display: inline-block;
+}
+
+.panel-default {
+	min-width: 80%;
+}
