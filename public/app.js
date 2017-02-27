@@ -23,25 +23,25 @@ TodoApp.controller("TodoAppController", ["$scope", "$http", function($scope, $ht
 
 TodoApp.controller("formController", ["$scope", "$http","getDate", function($scope, $http, getDate) {
     $scope.submit = function() {
-	console.log(getDate);
-	var date = getDate.getSelectedDate();
+	    var date = getDate.getSelectedDate();
+
         var data = {
             title: $scope.header,
             comment: $scope.comment,
             deadline: date
         };
+
         console.log('Im going to send this to server', data);
         $scope.header = '';
         $scope.comment = '';
-       
-
+       // $scope.tasks.push(data);
         $http.post('/insert', data)
             .then(function(response) {
                 console.log('Tasks in db:', response);
                 $scope.tasks = response.data;
+                console.log($scope.tasks)
             });
-        console.log('insert data to db');
-        $scope.init();
+        // $scope.init();
     }
 }]);
 

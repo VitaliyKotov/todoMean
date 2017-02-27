@@ -17,21 +17,24 @@ module.exports = function(app) {
             title: req.body.title,
             comment: req.body.comment,
             deadline: req.body.deadline
-        }
-        console.log('got data:', item);
+        };
+
         var newTask = new toDo(item);
-        console.log('created mongoose object', newTask)
+
         newTask.save(function(err, data) {
             if (err) console.log(err);
-            // saved!
-        });
-        toDo.find(function(err, data) {
+            // saved! 
+            console.log('saved todo', data)
+            toDo.find(function(err, data) {
             if (err) {
                 console.log('err')
             } else {
+                console.log('response after save', data)
                 res.json(data)
             }
         });
+        });
+        
     });
 
     app.delete('/tasks/:_id', function(req, res) {
