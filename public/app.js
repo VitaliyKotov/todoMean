@@ -31,17 +31,13 @@ TodoApp.controller("formController", ["$scope", "$http","getDate", function($sco
             deadline: date
         };
 
-        console.log('Im going to send this to server', data);
         $scope.header = '';
         $scope.comment = '';
-       // $scope.tasks.push(data);
+       
         $http.post('/insert', data)
             .then(function(response) {
-                console.log('Tasks in db:', response);
-                $scope.tasks = response.data;
-                console.log($scope.tasks)
+                $scope.$parent.tasks = response.data;
             });
-        // $scope.init();
     }
 }]);
 
