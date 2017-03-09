@@ -26,13 +26,13 @@ module.exports = function(app) {
             // saved! 
             console.log('saved todo', data)
             toDo.find(function(err, data) {
-            if (err) {
-                console.log('err')
-            } else {
-                console.log('response after save', data)
-                res.json(data)
-            }
-        });
+                if (err) {
+                    console.log('err')
+                } else {
+                    console.log('response after save', data)
+                    res.json(data)
+                }
+            });
         });
         
     });

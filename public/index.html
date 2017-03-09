@@ -12,7 +12,7 @@
 	<script src="./app.js"></script>
 </head>
 <body ng-controller="TodoAppController" ng-init="init()" class="container">
-    <uib-accordion close-others="oneAtATime" ng-repeat="task in tasks track by task._id">
+    <uib-accordion close-others="oneAtATime" ng-repeat="task in tasks | orderBy: 'deadline' track by task._id">
         <div uib-accordion-group class="panel-default" is-open="status.open">
             <uib-accordion-heading>
                 <span>{{task.title}}</span>
@@ -28,10 +28,10 @@
     <ng-form ng-controller="formController">
         <div>
             <h4>What I got to do:</h4>
-            <input type="text" ng-model="header" class="form-control">
+            <input type="text" ng-model="header" class="form-control" ng-required="true">
         </div>
         <div>
-            <h4>Add comment:</h4>
+            <h4>Add a comment:</h4>
             <textarea name="comment" id="comment" cols="30" rows="5" ng-model="comment" class="form-control"></textarea>
         </div>
         <div ng-controller="DatepickerPopupDemoCtrl">
