@@ -10,3 +10,7 @@
 ng-form > div {
 	max-width: 90%;
 }
+
+.help-block{
+	color: #a94442;
+}
