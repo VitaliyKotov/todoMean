@@ -65,11 +65,11 @@ TodoApp.controller('DatepickerPopupDemoCtrl', ["$scope", "$http", "getDate", fun
     startingDay: 1
   };
 
-  // Disable weekend selection
+  // Disable past days
   function disabled(data) {
     var date = data.date,
       mode = data.mode;
-    return mode === 'day' && (date.getDay() === 0 || date.getDay() === 6);
+    return mode === 'day' && (date < $scope.dt);
   }
 
   $scope.toggleMin = function() {
@@ -83,10 +83,6 @@ TodoApp.controller('DatepickerPopupDemoCtrl', ["$scope", "$http", "getDate", fun
     $scope.popup1.opened = true;
   };
 
-  $scope.open2 = function() {
-    $scope.popup2.opened = true;
-  };
-
   $scope.setDate = function(year, month, day) {
     $scope.dt = new Date(year, month, day);
   };
@@ -96,10 +92,6 @@ TodoApp.controller('DatepickerPopupDemoCtrl', ["$scope", "$http", "getDate", fun
   $scope.altInputFormats = ['M!/d!/yyyy'];
 
   $scope.popup1 = {
-    opened: false
-  };
-
-  $scope.popup2 = {
     opened: false
   };
 
