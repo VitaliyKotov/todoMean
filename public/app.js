@@ -1,7 +1,8 @@
-var TodoApp = angular.module("TodoApp", ['ngAnimate', 'ngSanitize', 'ui.bootstrap']);
+var TodoApp = angular.module("TodoApp", ['ui.bootstrap']);
 
-TodoApp.controller("TodoAppController", ["$scope", "$http", function($scope, $http) {
+TodoApp.controller("TodoAppController", ["$scope", "$http", "getDate", function($scope, $http, getDate) {
     $scope.minLenght = 1;
+    $scope.editing = false;
     $scope.init = function() {
         $http.get('/tasks')
             .then(function(response) {
@@ -19,13 +20,47 @@ TodoApp.controller("TodoAppController", ["$scope", "$http", function($scope, $ht
             });
     }
 
+    $scope.edit = function(id) {
+        $scope.editing = true;
+        console.log($scope.tasks)
+        var taskToEdit = $scope.tasks.filter(function(obj) {
+            return obj._id == id;
+        });
+        console.log(taskToEdit[0]);
+        $scope.header = taskToEdit[0].title;
+        $scope.comment = taskToEdit[0].comment;
+        getDate.takeDate(taskToEdit[0].deadline);
+        $scope.tempId = taskToEdit[0]._id;
+        $scope.$digest();
+    }
+
+    $scope.update = function() {
+        var date = getDate.getSelectedDate();
+
+        var data = {
+            title: $scope.header,
+            comment: $scope.comment,
+            deadline: date,
+            _id: $scope.tempId
+        };
+        console.log('updated todo', data)
+        $scope.header = '';
+        $scope.comment = '';
+        $scope.editing = false;
+        $scope.tempId = null;
+
+        $http.put('/update', data)
+            .then(function(response) {
+                $scope.tasks = response.data;
+            });
+    }
 }]);
 
 
-TodoApp.controller("formController", ["$scope", "$http","getDate", function($scope, $http, getDate) {
+TodoApp.controller("formController", ["$scope", "$http", "getDate", function($scope, $http, getDate) {
     $scope.submit = function() {
-	    var date = getDate.getSelectedDate();
-   
+        var date = getDate.getSelectedDate();
+
         var data = {
             title: $scope.header,
             comment: $scope.comment,
@@ -34,7 +69,7 @@ TodoApp.controller("formController", ["$scope", "$http","getDate", function($sco
 
         $scope.header = '';
         $scope.comment = '';
-       
+
         $http.post('/insert', data)
             .then(function(response) {
                 $scope.$parent.tasks = response.data;
@@ -42,7 +77,8 @@ TodoApp.controller("formController", ["$scope", "$http","getDate", function($sco
     }
 }]);
 
-TodoApp.controller('DatepickerPopupDemoCtrl', ["$scope", "$http", "getDate", function($scope, $http, getDate) {
+
+TodoApp.controller('DatepickerPopupDemoCtrl', ["$scope", "getDate", function($scope, getDate) {
     $scope.today = function() {
     $scope.dt = new Date();
   };
@@ -66,7 +102,7 @@ TodoApp.controller('DatepickerPopupDemoCtrl', ["$scope", "$http", "getDate", fun
     startingDay: 1
   };
 
-  // Disable past days
+  // Disable previous days
   function disabled(data) {
     var date = data.date,
       mode = data.mode;

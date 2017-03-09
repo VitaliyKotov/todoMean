@@ -34,14 +34,14 @@ module.exports = function(app) {
                 }
             });
         });
-        
+
     });
 
     app.delete('/tasks/:_id', function(req, res) {
         var id = req.params._id;
 
         toDo.find({ _id: id }).remove().exec();
-        
+
         toDo.find(function(err, data) {
             if (err) {
                 console.log('err')
@@ -49,6 +49,31 @@ module.exports = function(app) {
                 res.json(data)
             }
         });
+
+    });
+
+    app.put('/update', function(req, res) {
+        var id = req.body;
+        console.log('params:', id)
+        toDo.findOne({ _id: id }, function(err, todo) {
+            todo.title = req.body.title;
+            todo.comment = req.body.comment;
+            todo.deadline = req.body.deadline;
+            todo._id = id;
+
+            todo.save(function(err, todo) {
+                toDo.find(function(err, data) {
+                    if (err) {
+                        console.log('err')
+                    } else {
+                        console.log('response after save', data)
+                        res.json(data)
+                    }
+                });
+
+            });
+        });
+
 
     });
 
