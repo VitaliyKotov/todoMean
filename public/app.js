@@ -69,7 +69,7 @@ TodoApp.controller('DatepickerPopupDemoCtrl', ["$scope", "$http", "getDate", fun
   function disabled(data) {
     var date = data.date,
       mode = data.mode;
-    return mode === 'day' && (date < $scope.dt);
+    return mode === 'day' && (date < new Date());
   }
 
   $scope.toggleMin = function() {
