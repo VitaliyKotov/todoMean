@@ -1,6 +1,7 @@
 var TodoApp = angular.module("TodoApp", ['ngAnimate', 'ngSanitize', 'ui.bootstrap']);
 
 TodoApp.controller("TodoAppController", ["$scope", "$http", function($scope, $http) {
+    $scope.minLenght = 1;
     $scope.init = function() {
         $http.get('/tasks')
             .then(function(response) {
@@ -24,7 +25,7 @@ TodoApp.controller("TodoAppController", ["$scope", "$http", function($scope, $ht
 TodoApp.controller("formController", ["$scope", "$http","getDate", function($scope, $http, getDate) {
     $scope.submit = function() {
 	    var date = getDate.getSelectedDate();
-        console.log(date);
+   
         var data = {
             title: $scope.header,
             comment: $scope.comment,

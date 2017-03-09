@@ -38,10 +38,10 @@ module.exports = function(app) {
     });
 
     app.delete('/tasks/:_id', function(req, res) {
-        console.log(req.params);
         var id = req.params._id;
 
         toDo.find({ _id: id }).remove().exec();
+        
         toDo.find(function(err, data) {
             if (err) {
                 console.log('err')
