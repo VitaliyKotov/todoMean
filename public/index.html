@@ -10,7 +10,7 @@
 	<script src="./app.js"></script>
 </head>
 <body ng-controller="TodoAppController" ng-init="init()" class="container">
-    <uib-accordion close-others="oneAtATime" ng-repeat="task in tasks | orderBy: 'deadline' track by task._id">
+    <uib-accordion close-others="oneAtATime" ng-repeat="task in sharedService.tasks | orderBy: 'deadline' track by task._id">
         <div uib-accordion-group class="panel-default" is-open="status.open">
             <uib-accordion-heading>
                 <span>{{task.title}}</span>
@@ -22,24 +22,26 @@
         <button type="button" class="btn btn-danger" ng-click="done(task._id)">
             Done
         </button>
-        <button type="button" class="btn btn-warning" ng-click="edit(task._id)">Edit</button>
+        <button type="button" class="btn btn-warning" ng-click="edit(task._id)">
+            Edit
+        </button>
     </uib-accordion>
     <ng-form name="todoForm" ng-controller="formController" novalidate>
         <div ng-class="{ 'has-error' : todoForm.title.$invalid && focus===true}">
             <h4>What I got to do:</h4>
-            <input type="text" ng-model="header" class="form-control" name="title" required ng-minlength="minLength" ng-focus="focus=true" ng-blur="focus=false">
+            <input type="text" ng-model="sharedService.header" class="form-control" name="title" required ng-minlength="minLength" ng-focus="focus=true" ng-blur="focus=false">
             <p ng-show="todoForm.title.$invalid " class="help-block">Todo title is required.</p>
         </div>
         <div>
             <h4>Add a comment:</h4>
-            <textarea name="comment" id="comment" cols="30" rows="5" ng-model="comment" class="form-control"></textarea>
+            <textarea name="comment" id="comment" cols="30" rows="5" ng-model="sharedService.comment" class="form-control"></textarea>
         </div>
         <div ng-controller="DatepickerPopupDemoCtrl">
             <h4>Deadline</h4>
             <div class="row">
                 <div class="col-md-6">
                     <p class="input-group">
-                        <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt" is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" date-disabled="disabled(data)"/>
+                        <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="sharedService.selectedDate" is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" date-disabled="disabled(data)"/>
                         <span class="input-group-btn">
             				<button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
           				</span>
@@ -51,7 +53,7 @@
             <button type="button" class="btn btn-primary" ng-disabled="todoForm.$invalid || editing" ng-click="submit()">
                 Add task
             </button>
-            <button type="button" class="btn btn-success"" ng-disabled="!editing" ng-click="update()">
+            <button type="button" class="btn btn-success" ng-disabled="!editing" ng-click="update()">
                 Update
             </button>
         </div>
