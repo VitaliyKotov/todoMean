@@ -1,13 +1,15 @@
 var TodoApp = angular.module("TodoApp", ['ui.bootstrap']);
 
-TodoApp.controller("TodoAppController", ["$scope", "$http", "getDate", function($scope, $http, getDate) {
+TodoApp.controller("TodoAppController", ["$scope", "$http", "sharedService", function($scope, $http, sharedService) {
     $scope.minLenght = 1;
     $scope.editing = false;
+    $scope.sharedService = sharedService;
+    console.log(sharedService);
     $scope.init = function() {
         $http.get('/tasks')
             .then(function(response) {
                 console.log('Tasks in db:', response);
-                $scope.tasks = response.data;
+                sharedService.tasks = response.data;
             })
     };
 
@@ -16,76 +18,79 @@ TodoApp.controller("TodoAppController", ["$scope", "$http", "getDate", function(
         $http.delete('/tasks/' + id, id)
             .then(function(response) {
                 console.log('Tasks in db:', response);
-                $scope.tasks = response.data;
+                sharedService.tasks = response.data;
             });
     }
 
     $scope.edit = function(id) {
         $scope.editing = true;
-        console.log($scope.tasks)
-        var taskToEdit = $scope.tasks.filter(function(obj) {
+
+        var taskToEdit = sharedService.tasks.filter(function(obj) {
             return obj._id == id;
         });
-        console.log(taskToEdit[0]);
-        $scope.header = taskToEdit[0].title;
-        $scope.comment = taskToEdit[0].comment;
-        getDate.takeDate(taskToEdit[0].deadline);
-        $scope.tempId = taskToEdit[0]._id;
-        $scope.$digest();
-    }
-
-    $scope.update = function() {
-        var date = getDate.getSelectedDate();
-
-        var data = {
-            title: $scope.header,
-            comment: $scope.comment,
-            deadline: date,
-            _id: $scope.tempId
-        };
-        console.log('updated todo', data)
-        $scope.header = '';
-        $scope.comment = '';
-        $scope.editing = false;
-        $scope.tempId = null;
-
-        $http.put('/update', data)
-            .then(function(response) {
-                $scope.tasks = response.data;
-            });
-    }
+        console.log('task to edit', taskToEdit[0]);
+        sharedService.header = taskToEdit[0].title; //need $parent because ng-repeat creates it's own scope
+        sharedService.comment = taskToEdit[0].comment;            
+        sharedService.selectedDate = taskToEdit[0].deadline;
+        console.log(sharedService.selectedDate);
+        sharedService.tempId = taskToEdit[0]._id;  
+    }  
 }]);
 
 
-TodoApp.controller("formController", ["$scope", "$http", "getDate", function($scope, $http, getDate) {
+TodoApp.controller("formController", ["$scope", "$http", "sharedService", function($scope, $http, sharedService) {
+    $scope.sharedService = sharedService;
     $scope.submit = function() {
-        var date = getDate.getSelectedDate();
+        var date = sharedService.getSelectedDate();
 
         var data = {
-            title: $scope.header,
-            comment: $scope.comment,
+            title: sharedService.header,
+            comment: sharedService.comment,
             deadline: date
         };
 
-        $scope.header = '';
-        $scope.comment = '';
+        sharedService.header = '';
+        sharedService.comment = '';
 
         $http.post('/insert', data)
             .then(function(response) {
-                $scope.$parent.tasks = response.data;
+                sharedService.tasks = response.data;
             });
-    }
+    };
+
+    $scope.update = function() {
+        var date = sharedService.getSelectedDate();
+
+        var data = {
+            title: sharedService.header,
+            comment: sharedService.comment,
+            deadline: date,
+            _id: sharedService.tempId
+        };
+        console.log('updated todo', data)
+        sharedService.header = '';
+        sharedService.comment = '';
+        sharedService.tempId = null;
+
+        $http.put('/update', data)
+            .then(function(response) {
+                sharedService.tasks = response.data;
+                $scope.$parent.editing = false;
+            });
+    };
+
 }]);
 
 
-TodoApp.controller('DatepickerPopupDemoCtrl', ["$scope", "getDate", function($scope, getDate) {
+TodoApp.controller('DatepickerPopupDemoCtrl', ["$scope", "sharedService", function($scope, sharedService) {
+
     $scope.today = function() {
-    $scope.dt = new Date();
-  };
-  $scope.today();
+        sharedService.selectedDate = new Date();
+    };
+    $scope.today();
 
   $scope.clear = function() {
-    $scope.dt = null;
+    sharedService.selectedDate = null;
   };
 
   $scope.inlineOptions = {
@@ -165,26 +170,30 @@ TodoApp.controller('DatepickerPopupDemoCtrl', ["$scope", "getDate", function($sc
     return '';
   }
     
-    $scope.$watch('dt', function () {
-        var pickedDate = $scope.dt;
-        getDate.takeDate(pickedDate); 
-    })
+    $scope.$watch('sharedService.selectedDate', function (newValue, oldValue) {
+        sharedService.selectedDate = newValue; 
+    });
+
+    // $scope.$watch('dt', function () {
+    //     var pickedDate = $scope.dt;
+    //     sharedService.takeDate(pickedDate); 
+    // });
 }]);
 
 
 
-TodoApp.factory('getDate', function() {
-    var selectedDate;
-    var takeDate = function(date) {
-        selectedDate = date;
+TodoApp.service('sharedService', function() {
+    this.tasks;
+    this.header;
+    this.comment;
+    this.tempId;
+    this.selectedDate;
+    this.takeDate = function(date) {
+        this.selectedDate = date;
     };
 
-    var getSelectedDate = function() {
-        return selectedDate
+    this.getSelectedDate = function() {
+        return this.selectedDate;
     };
 
-    return {
-        takeDate: takeDate,
-        getSelectedDate: getSelectedDate
-    }
 });
