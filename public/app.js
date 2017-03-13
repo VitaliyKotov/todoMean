@@ -25,7 +25,7 @@ TodoApp.controller("TodoAppController", ["$scope", "$http", "sharedService", fun
         var taskToEdit = sharedService.tasks.filter(function(obj) {
             return obj._id == id;
         });
-        sharedService.header = taskToEdit[0].title; //need $parent because ng-repeat creates it's own scope
+        sharedService.header = taskToEdit[0].title;
         sharedService.comment = taskToEdit[0].comment;            
         sharedService.selectedDate = taskToEdit[0].deadline;
         sharedService.tempId = taskToEdit[0]._id;  
