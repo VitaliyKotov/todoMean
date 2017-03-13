@@ -169,6 +169,18 @@ const DatepickerPopupDemoCtrl = __WEBPACK_IMPORTED_MODULE_0__app_module_js__["a"
             return '';
         }
 
+        // $scope.$watch('dt', function () {
+        //     if($scope.dt !== sharedService.selectedDate) {
+        //         $scope.dt == sharedService.selectedDate
+        //     }
+        // });
+
+        //  $scope.$watch('sharedService.selectedDate', function () {
+        //     if(sharedService.selectedDate !== $scope.dt) {
+        //         $scope.dt == sharedService.selectedDate
+        //     }
+        // });
+
     }]);
 
 /* unused harmony default export */ var _unused_webpack_default_export = DatepickerPopupDemoCtrl;
@@ -206,6 +218,7 @@ const TodoAppController = __WEBPACK_IMPORTED_MODULE_0__app_module_js__["a" /* de
             var taskToEdit = sharedService.tasks.filter(function(obj) {
                 return obj._id == id;
             });
+
             sharedService.header = taskToEdit[0].title;
             sharedService.comment = taskToEdit[0].comment;
             sharedService.selectedDate = taskToEdit[0].deadline;
@@ -231,7 +244,7 @@ const formController = __WEBPACK_IMPORTED_MODULE_0__app_module_js__["a" /* defau
             var data = {
                 title: sharedService.header,
                 comment: sharedService.comment,
-                deadline: sharedService.getSelectedDate
+                deadline: sharedService.selectedDate
             };
 
             sharedService.header = '';
@@ -248,9 +261,10 @@ const formController = __WEBPACK_IMPORTED_MODULE_0__app_module_js__["a" /* defau
             var data = {
                 title: sharedService.header,
                 comment: sharedService.comment,
-                deadline: sharedService.getSelectedDate,
+                deadline: sharedService.selectedDate,
                 _id: sharedService.tempId
             };
+
             sharedService.header = '';
             sharedService.comment = '';
             sharedService.tempId = null;

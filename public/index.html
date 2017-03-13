@@ -19,11 +19,11 @@
             </uib-accordion-heading>
             {{task.comment}}
         </div>
-        <button type="button" class="btn btn-danger" ng-click="done(task._id)">
-            Done
-        </button>
         <button type="button" class="btn btn-warning" ng-click="edit(task._id)">
             Edit
+        </button>
+        <button type="button" class="btn btn-danger" ng-click="done(task._id)">
+            Done
         </button>
     </uib-accordion>
     <ng-form name="todoForm" ng-controller="formController" novalidate>

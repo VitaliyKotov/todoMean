@@ -25,6 +25,7 @@ const TodoAppController = app
             var taskToEdit = sharedService.tasks.filter(function(obj) {
                 return obj._id == id;
             });
+
             sharedService.header = taskToEdit[0].title;
             sharedService.comment = taskToEdit[0].comment;
             sharedService.selectedDate = taskToEdit[0].deadline;

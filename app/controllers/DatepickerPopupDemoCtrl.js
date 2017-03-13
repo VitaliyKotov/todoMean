@@ -87,6 +87,18 @@ const DatepickerPopupDemoCtrl = app
             return '';
         }
 
+        // $scope.$watch('dt', function () {
+        //     if($scope.dt !== sharedService.selectedDate) {
+        //         $scope.dt == sharedService.selectedDate
+        //     }
+        // });
+
+        //  $scope.$watch('sharedService.selectedDate', function () {
+        //     if(sharedService.selectedDate !== $scope.dt) {
+        //         $scope.dt == sharedService.selectedDate
+        //     }
+        // });
+
     }]);
 
 export default DatepickerPopupDemoCtrl;
