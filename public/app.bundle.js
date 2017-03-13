@@ -81,12 +81,14 @@ const app = angular.module("TodoApp", ['ui.bootstrap']);
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_module_js__ = __webpack_require__(0);
 
+
 const DatepickerPopupDemoCtrl = __WEBPACK_IMPORTED_MODULE_0__app_module_js__["a" /* default */]
     .controller('DatepickerPopupDemoCtrl', ["$scope", "sharedService", function($scope, sharedService) {
 
         $scope.today = function() {
             sharedService.selectedDate = new Date();
         };
+
         $scope.today();
 
         $scope.clear = function() {
@@ -178,6 +180,7 @@ const DatepickerPopupDemoCtrl = __WEBPACK_IMPORTED_MODULE_0__app_module_js__["a"
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_module_js__ = __webpack_require__(0);
 
+
 const TodoAppController = __WEBPACK_IMPORTED_MODULE_0__app_module_js__["a" /* default */]
     .controller("TodoAppController", ["$scope", "$http", "sharedService", function($scope, $http, sharedService) {
         $scope.minLenght = 1;
@@ -209,6 +212,7 @@ const TodoAppController = __WEBPACK_IMPORTED_MODULE_0__app_module_js__["a" /* de
             sharedService.tempId = taskToEdit[0]._id;
         }
     }]);
+    
 /* unused harmony default export */ var _unused_webpack_default_export = TodoAppController;
 
 /***/ }),
@@ -218,50 +222,50 @@ const TodoAppController = __WEBPACK_IMPORTED_MODULE_0__app_module_js__["a" /* de
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_module_js__ = __webpack_require__(0);
 
+
 const formController = __WEBPACK_IMPORTED_MODULE_0__app_module_js__["a" /* default */]
     .controller("formController", ["$scope", "$http", "sharedService", function($scope, $http, sharedService) {
-    $scope.sharedService = sharedService;
-    $scope.submit = function() {
-        var date = sharedService.getSelectedDate();
+        $scope.sharedService = sharedService;
+        $scope.submit = function() {
 
-        var data = {
-            title: sharedService.header,
-            comment: sharedService.comment,
-            deadline: date
+            var data = {
+                title: sharedService.header,
+                comment: sharedService.comment,
+                deadline: sharedService.getSelectedDate
+            };
+
+            sharedService.header = '';
+            sharedService.comment = '';
+
+            $http.post('/insert', data)
+                .then(function(response) {
+                    sharedService.tasks = response.data;
+                });
         };
 
-        sharedService.header = '';
-        sharedService.comment = '';
+        $scope.update = function() {
 
-        $http.post('/insert', data)
-            .then(function(response) {
-                sharedService.tasks = response.data;
-            });
-    };
+            var data = {
+                title: sharedService.header,
+                comment: sharedService.comment,
+                deadline: sharedService.getSelectedDate,
+                _id: sharedService.tempId
+            };
+            sharedService.header = '';
+            sharedService.comment = '';
+            sharedService.tempId = null;
 
-    $scope.update = function() {
-        var date = sharedService.getSelectedDate();
-
-        var data = {
-            title: sharedService.header,
-            comment: sharedService.comment,
-            deadline: date,
-            _id: sharedService.tempId
+            $http.put('/update', data)
+                .then(function(response) {
+                    sharedService.tasks = response.data;
+                    $scope.$parent.editing = false;
+                });
         };
-        sharedService.header = '';
-        sharedService.comment = '';
-        sharedService.tempId = null;
 
-        $http.put('/update', data)
-            .then(function(response) {
-                sharedService.tasks = response.data;
-                $scope.$parent.editing = false;
-            });
-    };
-
-}]);
+    }]);
 
 /* unused harmony default export */ var _unused_webpack_default_export = formController;
+
 
 
 /***/ }),
@@ -271,6 +275,7 @@ const formController = __WEBPACK_IMPORTED_MODULE_0__app_module_js__["a" /* defau
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_module_js__ = __webpack_require__(0);
 
+
 const sharedService = __WEBPACK_IMPORTED_MODULE_0__app_module_js__["a" /* default */]
     .service('sharedService', function() {
     this.tasks;
@@ -278,14 +283,6 @@ const sharedService = __WEBPACK_IMPORTED_MODULE_0__app_module_js__["a" /* defaul
     this.comment;
     this.tempId;
     this.selectedDate;
-    this.takeDate = function(date) {
-        this.selectedDate = date;
-    };
-
-    this.getSelectedDate = function() {
-        return this.selectedDate;
-    };
-
 });
 
 /* unused harmony default export */ var _unused_webpack_default_export = sharedService;
