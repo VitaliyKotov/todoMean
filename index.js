@@ -25,7 +25,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
 
-require('./routes/routes.js')(app);
+require('./app/routes/routes.js')(app);
 
 var server = app.listen(3000, function () {
   	var port = server.address().port;
