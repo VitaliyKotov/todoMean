@@ -7,7 +7,6 @@ TodoApp.controller("TodoAppController", ["$scope", "$http", "sharedService", fun
     $scope.init = function() {
         $http.get('/tasks')
             .then(function(response) {
-                console.log('Tasks in db:', response);
                 sharedService.tasks = response.data;
             })
     };

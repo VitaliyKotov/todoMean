@@ -1,4 +1,3 @@
-var express = require("express");
 var toDo = require('../mongoose/toDoModel.js');
 
 module.exports = function(app) {
