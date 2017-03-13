@@ -24,7 +24,6 @@ module.exports = function(app) {
         newTask.save(function(err, data) {
             if (err) console.log(err);
             // saved! 
-            console.log('saved todo', data)
             toDo.find(function(err, data) {
                 if (err) {
                     console.log('err')
@@ -54,7 +53,6 @@ module.exports = function(app) {
 
     app.put('/update', function(req, res) {
         var id = req.body;
-        console.log('params:', id)
         toDo.findOne({ _id: id }, function(err, todo) {
             todo.title = req.body.title;
             todo.comment = req.body.comment;

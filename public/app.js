@@ -4,7 +4,6 @@ TodoApp.controller("TodoAppController", ["$scope", "$http", "sharedService", fun
     $scope.minLenght = 1;
     $scope.editing = false;
     $scope.sharedService = sharedService;
-    console.log(sharedService);
     $scope.init = function() {
         $http.get('/tasks')
             .then(function(response) {
@@ -14,10 +13,8 @@ TodoApp.controller("TodoAppController", ["$scope", "$http", "sharedService", fun
     };
 
     $scope.done = function(id) {
-        console.log(id);
         $http.delete('/tasks/' + id, id)
             .then(function(response) {
-                console.log('Tasks in db:', response);
                 sharedService.tasks = response.data;
             });
     }
@@ -28,11 +25,9 @@ TodoApp.controller("TodoAppController", ["$scope", "$http", "sharedService", fun
         var taskToEdit = sharedService.tasks.filter(function(obj) {
             return obj._id == id;
         });
-        console.log('task to edit', taskToEdit[0]);
         sharedService.header = taskToEdit[0].title; //need $parent because ng-repeat creates it's own scope
         sharedService.comment = taskToEdit[0].comment;            
         sharedService.selectedDate = taskToEdit[0].deadline;
-        console.log(sharedService.selectedDate);
         sharedService.tempId = taskToEdit[0]._id;  
     }  
 }]);
@@ -67,7 +62,6 @@ TodoApp.controller("formController", ["$scope", "$http", "sharedService", functi
             deadline: date,
             _id: sharedService.tempId
         };
-        console.log('updated todo', data)
         sharedService.header = '';
         sharedService.comment = '';
         sharedService.tempId = null;
@@ -170,14 +164,6 @@ TodoApp.controller('DatepickerPopupDemoCtrl', ["$scope", "sharedService", functi
     return '';
   }
     
-    $scope.$watch('sharedService.selectedDate', function (newValue, oldValue) {
-        sharedService.selectedDate = newValue; 
-    });
-
-    // $scope.$watch('dt', function () {
-    //     var pickedDate = $scope.dt;
-    //     sharedService.takeDate(pickedDate); 
-    // });
 }]);
 
 
