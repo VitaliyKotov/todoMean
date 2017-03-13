@@ -1,8 +1,11 @@
 var express = require("express");
 var mongoose = require('mongoose');
-var mongodb = require("mongodb");
 var bodyParser = require("body-parser");
-var router = express.Router();
+var webpackDevMiddleware = require("webpack-dev-middleware");
+var webpack = require("webpack");
+var webpackConfig = require("./webpack.config");
+var compiler = webpack(webpackConfig);
+
 
 var url = 'mongodb://guest:guest1@ds161069.mlab.com:61069/9999';
 mongoose.connect(url);
@@ -13,6 +16,10 @@ db.once('open', function() {
 });
 
 var app = express();
+app.use(webpackDevMiddleware(compiler, {
+  publicPath: "/public"
+}));
+
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());

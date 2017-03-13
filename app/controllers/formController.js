@@ -2,45 +2,44 @@ import app from '../app.module.js';
 
 const formController = app
     .controller("formController", ["$scope", "$http", "sharedService", function($scope, $http, sharedService) {
-    $scope.sharedService = sharedService;
-    $scope.submit = function() {
-        var date = sharedService.getSelectedDate();
+        $scope.sharedService = sharedService;
+        $scope.submit = function() {
 
-        var data = {
-            title: sharedService.header,
-            comment: sharedService.comment,
-            deadline: date
+            var data = {
+                title: sharedService.header,
+                comment: sharedService.comment,
+                deadline: sharedService.getSelectedDate
+            };
+
+            sharedService.header = '';
+            sharedService.comment = '';
+
+            $http.post('/insert', data)
+                .then(function(response) {
+                    sharedService.tasks = response.data;
+                });
         };
 
-        sharedService.header = '';
-        sharedService.comment = '';
+        $scope.update = function() {
 
-        $http.post('/insert', data)
-            .then(function(response) {
-                sharedService.tasks = response.data;
-            });
-    };
+            var data = {
+                title: sharedService.header,
+                comment: sharedService.comment,
+                deadline: sharedService.getSelectedDate,
+                _id: sharedService.tempId
+            };
+            sharedService.header = '';
+            sharedService.comment = '';
+            sharedService.tempId = null;
 
-    $scope.update = function() {
-        var date = sharedService.getSelectedDate();
-
-        var data = {
-            title: sharedService.header,
-            comment: sharedService.comment,
-            deadline: date,
-            _id: sharedService.tempId
+            $http.put('/update', data)
+                .then(function(response) {
+                    sharedService.tasks = response.data;
+                    $scope.$parent.editing = false;
+                });
         };
-        sharedService.header = '';
-        sharedService.comment = '';
-        sharedService.tempId = null;
 
-        $http.put('/update', data)
-            .then(function(response) {
-                sharedService.tasks = response.data;
-                $scope.$parent.editing = false;
-            });
-    };
-
-}]);
+    }]);
 
 export default formController;
+

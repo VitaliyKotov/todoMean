@@ -6,6 +6,7 @@ const DatepickerPopupDemoCtrl = app
         $scope.today = function() {
             sharedService.selectedDate = new Date();
         };
+
         $scope.today();
 
         $scope.clear = function() {

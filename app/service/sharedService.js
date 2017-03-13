@@ -7,14 +7,6 @@ const sharedService = app
     this.comment;
     this.tempId;
     this.selectedDate;
-    this.takeDate = function(date) {
-        this.selectedDate = date;
-    };
-
-    this.getSelectedDate = function() {
-        return this.selectedDate;
-    };
-
 });
 
 export default sharedService;
