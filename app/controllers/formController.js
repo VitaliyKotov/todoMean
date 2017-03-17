@@ -8,7 +8,7 @@ const formController = app
             var data = {
                 title: sharedService.header,
                 comment: sharedService.comment,
-                deadline: sharedService.getSelectedDate
+                deadline: sharedService.selectedDate
             };
 
             sharedService.header = '';
@@ -25,9 +25,10 @@ const formController = app
             var data = {
                 title: sharedService.header,
                 comment: sharedService.comment,
-                deadline: sharedService.getSelectedDate,
+                deadline: sharedService.selectedDate,
                 _id: sharedService.tempId
             };
+
             sharedService.header = '';
             sharedService.comment = '';
             sharedService.tempId = null;
@@ -36,6 +37,7 @@ const formController = app
                 .then(function(response) {
                     sharedService.tasks = response.data;
                     $scope.$parent.editing = false;
+                    sharedService.selectedDate = new Date();
                 });
         };
 
