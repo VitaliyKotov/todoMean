@@ -1,16 +1,16 @@
 import app from '../app.module.js';
 
 const DatepickerPopupDemoCtrl = app
-    .controller('DatepickerPopupDemoCtrl', ["$scope", "sharedService", function($scope, sharedService) {
-
+    .controller('DatepickerPopupDemoCtrl', ["$scope", "sharedService",  function($scope, sharedService) {
+        $scope.sharedService = sharedService;
         $scope.today = function() {
-            sharedService.selectedDate = new Date();
+            $scope.dt = new Date();
         };
 
         $scope.today();
 
         $scope.clear = function() {
-            sharedService.selectedDate = null;
+            $scope.dt = null;
         };
 
         $scope.inlineOptions = {
@@ -87,17 +87,17 @@ const DatepickerPopupDemoCtrl = app
             return '';
         }
 
-        // $scope.$watch('dt', function () {
-        //     if($scope.dt !== sharedService.selectedDate) {
-        //         $scope.dt == sharedService.selectedDate
-        //     }
-        // });
+        $scope.$watch('dt', function () {
+            if(sharedService.selectedDate != $scope.dt) {
+                sharedService.selectedDate = $scope.dt;
+            }
+        });
 
-        //  $scope.$watch('sharedService.selectedDate', function () {
-        //     if(sharedService.selectedDate !== $scope.dt) {
-        //         $scope.dt == sharedService.selectedDate
-        //     }
-        // });
+        $scope.$watch('sharedService.selectedDate', function () {
+            if($scope.dt != sharedService.selectedDate) {
+                $scope.dt = new Date(sharedService.selectedDate); // ng-model must be a Javascript Date object
+            }
+        });
 
     }]);
 

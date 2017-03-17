@@ -37,6 +37,7 @@ const formController = app
                 .then(function(response) {
                     sharedService.tasks = response.data;
                     $scope.$parent.editing = false;
+                    sharedService.selectedDate = new Date();
                 });
         };
 

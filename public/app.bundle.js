@@ -83,16 +83,16 @@ const app = angular.module("TodoApp", ['ui.bootstrap']);
 
 
 const DatepickerPopupDemoCtrl = __WEBPACK_IMPORTED_MODULE_0__app_module_js__["a" /* default */]
-    .controller('DatepickerPopupDemoCtrl', ["$scope", "sharedService", function($scope, sharedService) {
-
+    .controller('DatepickerPopupDemoCtrl', ["$scope", "sharedService",  function($scope, sharedService) {
+        $scope.sharedService = sharedService;
         $scope.today = function() {
-            sharedService.selectedDate = new Date();
+            $scope.dt = new Date();
         };
 
         $scope.today();
 
         $scope.clear = function() {
-            sharedService.selectedDate = null;
+            $scope.dt = null;
         };
 
         $scope.inlineOptions = {
@@ -169,17 +169,17 @@ const DatepickerPopupDemoCtrl = __WEBPACK_IMPORTED_MODULE_0__app_module_js__["a"
             return '';
         }
 
-        // $scope.$watch('dt', function () {
-        //     if($scope.dt !== sharedService.selectedDate) {
-        //         $scope.dt == sharedService.selectedDate
-        //     }
-        // });
+        $scope.$watch('dt', function () {
+            if(sharedService.selectedDate != $scope.dt) {
+                sharedService.selectedDate = $scope.dt;
+            }
+        });
 
-        //  $scope.$watch('sharedService.selectedDate', function () {
-        //     if(sharedService.selectedDate !== $scope.dt) {
-        //         $scope.dt == sharedService.selectedDate
-        //     }
-        // });
+        $scope.$watch('sharedService.selectedDate', function () {
+            if($scope.dt != sharedService.selectedDate) {
+                $scope.dt = new Date(sharedService.selectedDate); // ng-model must be a Javascript Date object
+            }
+        });
 
     }]);
 
@@ -273,6 +273,7 @@ const formController = __WEBPACK_IMPORTED_MODULE_0__app_module_js__["a" /* defau
                 .then(function(response) {
                     sharedService.tasks = response.data;
                     $scope.$parent.editing = false;
+                    sharedService.selectedDate = new Date();
                 });
         };
 
