@@ -9,7 +9,7 @@
     <link href="./styles.css" rel="stylesheet">
 	<script src="./app.bundle.js"></script>
 </head>
-<body ng-controller="TodoAppController" ng-init="init()" class="container">
+<body ng-controller="TodoAppController" ng-init="init()" class="container dotted">
     <uib-accordion close-others="oneAtATime" ng-repeat="task in sharedService.tasks | orderBy: 'deadline' track by task._id">
         <div uib-accordion-group class="panel-default" is-open="status.open">
             <uib-accordion-heading>
@@ -22,7 +22,7 @@
         <button type="button" class="btn btn-warning" ng-click="edit(task._id)">
             Edit
         </button>
-        <button type="button" class="btn btn-danger" ng-click="done(task._id)">
+        <button type="button" class="btn btn-danger" ng-click="done(task._id)" ng-disabled="editing">
             Done
         </button>
     </uib-accordion>

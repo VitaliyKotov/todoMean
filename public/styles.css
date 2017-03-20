@@ -1,6 +1,15 @@
 body {
-	margin-top: 20px;
+    margin-top: 20px;
+    padding: 2.25em 1.6875em;
+    background-image: -webkit-repeating-radial-gradient(center center, rgba(0, 0, 0, .2), rgba(0, 0, 0, .2) 1px, transparent 1px, transparent 100%);
+    background-image: -moz-repeating-radial-gradient(center center, rgba(0, 0, 0, .2), rgba(0, 0, 0, .2) 1px, transparent 1px, transparent 100%);
+    background-image: -ms-repeating-radial-gradient(center center, rgba(0, 0, 0, .2), rgba(0, 0, 0, .2) 1px, transparent 1px, transparent 100%);
+    background-image: repeating-radial-gradient(center center, rgba(0, 0, 0, .2), rgba(0, 0, 0, .2) 1px, transparent 1px, transparent 100%);
+    -webkit-background-size: 3px 3px;
+    -moz-background-size: 3px 3px;
+    background-size: 3px 3px;
 }
+
 
 .btn-danger,
 .panel-default {
@@ -17,4 +26,24 @@ ng-form > div {
 
 .help-block {
 	color: #a94442;
+}
+
+uib-accordion:nth-child(2n) .panel > .panel-heading {
+	background-color: #fff;
+}
+.glyphicon + span{
+	margin-right: 15px;
+}
+
+.btn-warning {
+	margin: 0 5px;
+}
+
+ng-form {
+	margin-top: 40px;
+    display: block;
+}
+
+ng-form > div:first-child {
+	border-top: 2px solid #000000;
 }
