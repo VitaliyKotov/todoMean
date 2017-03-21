@@ -10,7 +10,9 @@
 	<script src="./app.bundle.js"></script>
 </head>
 <body ng-controller="TodoAppController" ng-init="init()" class="container dotted">
-    <uib-accordion close-others="oneAtATime" ng-repeat="task in sharedService.tasks | orderBy: 'deadline' track by task._id">
+    <h4>Find my Todo:</h4>
+    <input type="text" ng-model="searchQuery" class="form-control" placeholder="Search Todo" id="search">
+    <uib-accordion close-others="oneAtATime" ng-repeat="task in sharedService.tasks | orderBy: 'deadline' | filter: searchQuery track by task._id">
         <div uib-accordion-group class="panel-default" is-open="status.open">
             <uib-accordion-heading>
                 <span>{{task.title}}</span>
