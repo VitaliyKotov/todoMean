@@ -1,5 +1,4 @@
 body {
-    margin-top: 20px;
     padding: 2.25em 1.6875em;
     background-image: -webkit-repeating-radial-gradient(center center, rgba(0, 0, 0, .2), rgba(0, 0, 0, .2) 1px, transparent 1px, transparent 100%);
     background-image: -moz-repeating-radial-gradient(center center, rgba(0, 0, 0, .2), rgba(0, 0, 0, .2) 1px, transparent 1px, transparent 100%);
@@ -46,4 +45,8 @@ ng-form {
 
 ng-form > div:first-child {
 	border-top: 2px solid #000000;
+}
+
+#search {
+    margin-bottom: 20px;
 }
