@@ -1,0 +1,21 @@
+<body ng-init="init()" class="container dotted">
+    <h4>Find my Todo:</h4>
+    <input type="text" ng-model="searchQuery" class="form-control" placeholder="Search Todo" id="search">
+    <uib-accordion close-others="oneAtATime" ng-repeat="task in sharedService.tasks | orderBy: 'deadline' | filter: searchQuery track by task._id">
+        <div uib-accordion-group class="panel-default" is-open="status.open">
+            <uib-accordion-heading>
+                <span>{{task.title}}</span>
+                <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+                <span class="pull-right">{{task.deadline | date: 'mediumDate'}} </span>
+            </uib-accordion-heading>
+            {{task.comment}}
+        </div>
+        <button type="button" class="btn btn-warning" ng-click="edit(task._id)">
+            Edit
+        </button>
+        <button type="button" class="btn btn-danger" ng-click="done(task._id)" ng-disabled="editing">
+            Done
+        </button>
+    </uib-accordion>
+    <createForm></createForm>
+</body>

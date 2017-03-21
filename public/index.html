@@ -7,59 +7,8 @@
 	<link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-2.5.0.js"></script>
     <link href="./styles.css" rel="stylesheet">
-	<script src="./app.bundle.js"></script>
 </head>
-<body ng-controller="TodoAppController" ng-init="init()" class="container dotted">
-    <h4>Find my Todo:</h4>
-    <input type="text" ng-model="searchQuery" class="form-control" placeholder="Search Todo" id="search">
-    <uib-accordion close-others="oneAtATime" ng-repeat="task in sharedService.tasks | orderBy: 'deadline' | filter: searchQuery track by task._id">
-        <div uib-accordion-group class="panel-default" is-open="status.open">
-            <uib-accordion-heading>
-                <span>{{task.title}}</span>
-                <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
-                <span class="pull-right">{{task.deadline | date: 'mediumDate'}} </span>
-            </uib-accordion-heading>
-            {{task.comment}}
-        </div>
-        <button type="button" class="btn btn-warning" ng-click="edit(task._id)">
-            Edit
-        </button>
-        <button type="button" class="btn btn-danger" ng-click="done(task._id)" ng-disabled="editing">
-            Done
-        </button>
-    </uib-accordion>
-    <ng-form name="todoForm" ng-controller="formController" novalidate>
-        <div ng-class="{ 'has-error' : todoForm.title.$invalid && focus===true}">
-            <h4>What I got to do:</h4>
-            <input type="text" ng-model="sharedService.header" class="form-control" name="title" required ng-minlength="minLength" ng-focus="focus=true" ng-blur="focus=false">
-            <p ng-show="todoForm.title.$invalid " class="help-block">Todo title is required.</p>
-        </div>
-        <div>
-            <h4>Add a comment:</h4>
-            <textarea name="comment" id="comment" cols="30" rows="5" ng-model="sharedService.comment" class="form-control"></textarea>
-        </div>
-        <div ng-controller="DatepickerPopupDemoCtrl">
-            <h4>Deadline</h4>
-            <div class="row">
-                <div class="col-md-6">
-                    <p class="input-group">
-                        <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt" is-open="popup1.opened" datepicker-options="dateOptions"  close-text="Close" alt-input-formats="altInputFormats" date-disabled="disabled(data)"  ui-date-format />
-                        <span class="input-group-btn">
-            				<button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
-          				</span>
-                    </p>
-                </div>
-            </div>
-        </div>
-        <div>
-            <button type="button" class="btn btn-primary" ng-disabled="todoForm.$invalid || editing" ng-click="submit()">
-                Add task
-            </button>
-            <button type="button" class="btn btn-success" ng-disabled="!editing" ng-click="update()">
-                Update
-            </button>
-        </div>
-    </ng-form>
-</body>
+<mainCtrl></mainCtrl>
 
+	<script src="./app.bundle.js"></script>
 </html>
