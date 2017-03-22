@@ -45,7 +45,7 @@ const formController = app
     .directive('createForm', function () {
         return {
             restrict: 'E',
-            templateUrl: './form-template.html',
+            template: require('./form-template.html'),
             controller: 'formController'
         }
     });

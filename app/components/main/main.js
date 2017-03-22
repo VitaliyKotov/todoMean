@@ -32,12 +32,13 @@ const TodoAppController = app
             sharedService.tempId = taskToEdit[0]._id;
         }
     }])
-    .directive('mainCtrl', function () {
+    .directive('mydir', function () {
         return {
             restrict: 'E',
-            templateUrl: './main-template.html',
+            template: require('./main-template.html'),
             controller: 'TodoAppController'
         }
-    })
+    });
+    
     
 export default TodoAppController;
