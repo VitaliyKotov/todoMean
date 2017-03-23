@@ -27,7 +27,6 @@ module.exports = function(app) {
                 if (err) {
                     console.log('err')
                 } else {
-                    console.log('response after save', data)
                     res.json(data)
                 }
             });

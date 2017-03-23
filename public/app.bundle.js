@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 11);
+/******/ 	return __webpack_require__(__webpack_require__.s = 5);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -72,11 +72,10 @@
 
 "use strict";
 const app = angular.module("TodoApp", ['ui.bootstrap']);
-/* harmony default export */ __webpack_exports__["a"] = app;
+/* harmony default export */ __webpack_exports__["a"] = (app);
 
 /***/ }),
-/* 1 */,
-/* 2 */
+/* 1 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -171,13 +170,13 @@ const DatepickerPopupDemoCtrl = __WEBPACK_IMPORTED_MODULE_0__app_module_js__["a"
         }
 
         $scope.$watch('dt', function () {
-            if(sharedService.selectedDate && sharedService.selectedDate != $scope.dt.toString()) {
+            if(sharedService.selectedDate != $scope.dt) {
                 sharedService.selectedDate = $scope.dt;
             }
         });
 
         $scope.$watch('sharedService.selectedDate', function () {
-            if(sharedService.selectedDate && $scope.dt.toString() != sharedService.selectedDate) {
+            if ($scope.dt.toString() != sharedService.selectedDate) {
                 $scope.dt = new Date(sharedService.selectedDate); // ng-model must be a Javascript Date object
             }
         });
@@ -186,16 +185,16 @@ const DatepickerPopupDemoCtrl = __WEBPACK_IMPORTED_MODULE_0__app_module_js__["a"
     .directive('datepicker', function () {
         return {
             restrict: 'E',
-            template: __webpack_require__(8),
+            scope: true,
+            template: __webpack_require__(6),
             controller: 'DatepickerPopupDemoCtrl'
         }
     });
 
-/* unused harmony default export */ var _unused_webpack_default_export = DatepickerPopupDemoCtrl;
+/* unused harmony default export */ var _unused_webpack_default_export = (DatepickerPopupDemoCtrl);
 
 /***/ }),
-/* 3 */,
-/* 4 */
+/* 2 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -219,6 +218,7 @@ const formController = __WEBPACK_IMPORTED_MODULE_0__app_module_js__["a" /* defau
             $http.post('/insert', data)
                 .then(function(response) {
                     sharedService.tasks = response.data;
+                    sharedService.selectedDate = new Date();
                 });
         };
 
@@ -247,16 +247,16 @@ const formController = __WEBPACK_IMPORTED_MODULE_0__app_module_js__["a" /* defau
     .directive('createForm', function () {
         return {
             restrict: 'E',
-            template: __webpack_require__(9),
+            scope: true,
+            template: __webpack_require__(7),
             controller: 'formController'
         }
     });
 
-/* unused harmony default export */ var _unused_webpack_default_export = formController;
+/* unused harmony default export */ var _unused_webpack_default_export = (formController);
 
 /***/ }),
-/* 5 */,
-/* 6 */
+/* 3 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -298,16 +298,16 @@ const TodoAppController = __WEBPACK_IMPORTED_MODULE_0__app_module_js__["a" /* de
     .directive('mydir', function () {
         return {
             restrict: 'E',
-            template: __webpack_require__(10),
+            template: __webpack_require__(8),
             controller: 'TodoAppController'
         }
     });
     
     
-/* unused harmony default export */ var _unused_webpack_default_export = TodoAppController;
+/* unused harmony default export */ var _unused_webpack_default_export = (TodoAppController);
 
 /***/ }),
-/* 7 */
+/* 4 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -323,45 +323,42 @@ const sharedService = __WEBPACK_IMPORTED_MODULE_0__app_module_js__["a" /* defaul
     this.selectedDate;
 });
 
-/* unused harmony default export */ var _unused_webpack_default_export = sharedService;
+/* unused harmony default export */ var _unused_webpack_default_export = (sharedService);
 
 /***/ }),
-/* 8 */
+/* 5 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_components_main_main__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__app_components_form_form__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__app_components_datepicker_datepicker__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__app_service_sharedService__ = __webpack_require__(4);
+
+
+
+
+
+
+
+/***/ }),
+/* 6 */
 /***/ (function(module, exports) {
 
 module.exports = "<div>\r\n    <h4>Deadline</h4>\r\n    <div class=\"row\">\r\n        <div class=\"col-md-6\">\r\n            <p class=\"input-group\">\r\n                <input type=\"text\" class=\"form-control\" uib-datepicker-popup=\"{{format}}\" ng-model=\"dt\" is-open=\"popup1.opened\" datepicker-options=\"dateOptions\" close-text=\"Close\" alt-input-formats=\"altInputFormats\" date-disabled=\"disabled(data)\" ui-date-format />\r\n                <span class=\"input-group-btn\">\r\n                    <button type=\"button\" class=\"btn btn-default\" ng-click=\"open1()\">\r\n                        <i class=\"glyphicon glyphicon-calendar\"></i>\r\n                    </button>\r\n                </span>\r\n            </p>\r\n        </div>\r\n    </div>\r\n</div>\r\n";
 
 /***/ }),
-/* 9 */
+/* 7 */
 /***/ (function(module, exports) {
 
-module.exports = "<ng-form name=\"todoForm\" novalidate>\r\n        <div ng-class=\"{ 'has-error' : todoForm.title.$invalid && focus===true}\">\r\n            <h4>What I got to do:</h4>\r\n            <input type=\"text\" ng-model=\"sharedService.header\" class=\"form-control\" name=\"title\" required ng-minlength=\"minLength\" ng-focus=\"focus=true\" ng-blur=\"focus=false\">\r\n            <p ng-show=\"todoForm.title.$invalid \" class=\"help-block\">Todo title is required.</p>\r\n        </div>\r\n        <div>\r\n            <h4>Add a comment:</h4>\r\n            <textarea name=\"comment\" id=\"comment\" cols=\"30\" rows=\"5\" ng-model=\"sharedService.comment\" class=\"form-control\"></textarea>\r\n        </div>\r\n        <datepicker></datepicker>\r\n        <div>\r\n            <button type=\"button\" class=\"btn btn-primary\" ng-disabled=\"todoForm.$invalid || editing\" ng-click=\"submit()\">\r\n                Add task\r\n            </button>\r\n            <button type=\"button\" class=\"btn btn-success\" ng-disabled=\"!editing\" ng-click=\"update()\">\r\n                Update\r\n            </button>\r\n        </div>\r\n    </ng-form>";
+module.exports = "<ng-form name=\"todoForm\" novalidate>\r\n    <div ng-class=\"{ 'has-error' : todoForm.title.$invalid && focus===true}\">\r\n        <h4>What I got to do:</h4>\r\n        <input type=\"text\" ng-model=\"sharedService.header\" class=\"form-control\" name=\"title\" required ng-minlength=\"minLength\" ng-focus=\"focus=true\" ng-blur=\"focus=false\">\r\n        <p ng-show=\"todoForm.title.$invalid \" class=\"help-block\">Todo title is required.</p>\r\n    </div>\r\n    <div>\r\n        <h4>Add a comment:</h4>\r\n        <textarea name=\"comment\" id=\"comment\" cols=\"30\" rows=\"5\" ng-model=\"sharedService.comment\" class=\"form-control\"></textarea>\r\n    </div>\r\n    <datepicker></datepicker>\r\n    <div>\r\n        <button type=\"button\" class=\"btn btn-primary\" ng-disabled=\"todoForm.$invalid || editing\" ng-click=\"submit()\">\r\n            Add task\r\n        </button>\r\n        <button type=\"button\" class=\"btn btn-success\" ng-disabled=\"!editing\" ng-click=\"update()\">\r\n            Update\r\n        </button>\r\n    </div>\r\n</ng-form>\r\n";
 
 /***/ }),
-/* 10 */
+/* 8 */
 /***/ (function(module, exports) {
 
 module.exports = "<div ng-init=\"init()\">\r\n    <h4>Find my Todo:</h4>\r\n    <input type=\"text\" ng-model=\"searchQuery\" class=\"form-control\" placeholder=\"Search Todo\" id=\"search\">\r\n    <uib-accordion close-others=\"oneAtATime\" ng-repeat=\"task in sharedService.tasks | orderBy: 'deadline' | filter: searchQuery track by task._id\">\r\n        <div uib-accordion-group class=\"panel-default\" is-open=\"status.open\">\r\n            <uib-accordion-heading>\r\n                <span>{{task.title}}</span>\r\n                <i class=\"pull-right glyphicon\" ng-class=\"{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}\"></i>\r\n                <span class=\"pull-right\">{{task.deadline | date: 'mediumDate'}} </span>\r\n            </uib-accordion-heading>\r\n            {{task.comment}}\r\n        </div>\r\n        <button type=\"button\" class=\"btn btn-warning\" ng-click=\"edit(task._id)\">\r\n            Edit\r\n        </button>\r\n        <button type=\"button\" class=\"btn btn-danger\" ng-click=\"done(task._id)\" ng-disabled=\"editing\">\r\n            Done\r\n        </button>\r\n    </uib-accordion>\r\n    <create-Form></create-Form>\r\n</div>";
-
-/***/ }),
-/* 11 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_components_main_main__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__app_components_form_form__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__app_components_datepicker_datepicker__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__app_service_sharedService__ = __webpack_require__(7);
-
-// import TodoAppDirective from './app/components/main/main-dir';
-
-// import formDirective from './app/components/form/form-dir';
-
-// import DatepickerDirective from './app/components/datepicker/datepicker-dir';
-
-
-
 
 /***/ })
 /******/ ]);

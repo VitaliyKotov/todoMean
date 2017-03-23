@@ -17,6 +17,7 @@ const formController = app
             $http.post('/insert', data)
                 .then(function(response) {
                     sharedService.tasks = response.data;
+                    sharedService.selectedDate = new Date();
                 });
         };
 
@@ -45,6 +46,7 @@ const formController = app
     .directive('createForm', function () {
         return {
             restrict: 'E',
+            scope: true,
             template: require('./form-template.html'),
             controller: 'formController'
         }

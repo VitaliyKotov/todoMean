@@ -88,13 +88,13 @@ const DatepickerPopupDemoCtrl = app
         }
 
         $scope.$watch('dt', function () {
-            if(sharedService.selectedDate && sharedService.selectedDate != $scope.dt.toString()) {
+            if(sharedService.selectedDate != $scope.dt) {
                 sharedService.selectedDate = $scope.dt;
             }
         });
 
         $scope.$watch('sharedService.selectedDate', function () {
-            if(sharedService.selectedDate && $scope.dt.toString() != sharedService.selectedDate) {
+            if ($scope.dt.toString() != sharedService.selectedDate) {
                 $scope.dt = new Date(sharedService.selectedDate); // ng-model must be a Javascript Date object
             }
         });
@@ -103,6 +103,7 @@ const DatepickerPopupDemoCtrl = app
     .directive('datepicker', function () {
         return {
             restrict: 'E',
+            scope: true,
             template: require('./datepicker-template.html'),
             controller: 'DatepickerPopupDemoCtrl'
         }
